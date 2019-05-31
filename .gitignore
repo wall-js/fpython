@@ -1,2 +1,5 @@
 /.idea
 /venv
+/fpython.egg-info
+/dist
+/build
