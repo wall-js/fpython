@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='fpython',
-    version='0.0.3',
+    version='0.0.5',
     keywords=('utils', 'packages'),
     long_description=open("README.rst").read(),
     description='packages',

@@ -1,7 +1,7 @@
 import pika
 import threading
 import json
-import datetime
+# import datetime
 import time
 import uuid
 
@@ -24,8 +24,10 @@ class RabbitMQServer(object):
         self.channel = self.connection.channel()
 
     def consumer_callback(self, ch, method, properties, body):
-        print(body)
-        ch.basic_ack(delivery_tag=method.delivery_tag)
+        pass
+        # print(body)
+        # print(properties)
+        # ch.basic_ack(delivery_tag=method.delivery_tag)
 
     def start_consumer(self):
         while True:
@@ -97,11 +99,10 @@ class RabbitMQServer(object):
         return self.exec(func(self))
 
 
-
 def listen(dial, receive_queue):
-    threading.Thread(target=RabbitMQServer.run, args=(dial, receive_queue,)).start()
-
-
+    t = threading.Thread(target=RabbitMQServer.run, args=(dial, receive_queue,)).start()
+    t.setDaemon(True)
+    t.start()
 
 # send example:
 # server = RabbitMQServer(dial)
