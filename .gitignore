@@ -3,3 +3,4 @@
 /fpython.egg-info
 /dist
 /build
+/.pypirc
