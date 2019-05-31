@@ -99,8 +99,8 @@ class RabbitMQServer(object):
         return self.exec(func(self))
 
 
-def listen(dial, receive_queue):
-    t = threading.Thread(target=RabbitMQServer.run, args=(dial, receive_queue,)).start()
+def listen(dial, receive_queue, server=RabbitMQServer):
+    t = threading.Thread(target=server.run, args=(dial, receive_queue,)).start()
     t.setDaemon(True)
     t.start()
 
