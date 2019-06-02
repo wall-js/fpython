@@ -50,9 +50,11 @@ class RabbitMQServer(object):
 
     @classmethod
     def run(cls, dial, receive_queue):
+        cls._instance_lock.acquire()
         consumer = cls(dial)
         consumer.receive_queue = receive_queue
         consumer.start_consumer()
+        cls._instance_lock.release()
 
     def exec(self, func):
         try:
@@ -100,7 +102,7 @@ class RabbitMQServer(object):
 
 
 def listen(dial, receive_queue, server=RabbitMQServer):
-    t = threading.Thread(target=server.run, args=(dial, receive_queue,)).start()
+    t = threading.Thread(target=server.run, args=(dial, receive_queue,))
     t.setDaemon(True)
     t.start()
 
