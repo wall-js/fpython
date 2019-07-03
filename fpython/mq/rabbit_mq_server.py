@@ -82,15 +82,21 @@ class RabbitMQServer(object):
         except Exception as e:
             print(e)
 
-    def send(self, routing_key, data):
+    def send(self, routing_key, data, uid=None, business_info=None):
         """
         发送数据至签名队列
         :param data: 数据 string
         :param routing_key: 路由地址 string
+        :param uid: 业务标识
+        :param business_info: 业务信息
         :return: 会话ID guid
         """
         guid = str(uuid.uuid1())
         message = {"guid": guid, "data": data}
+        if uid:
+            message["uid"] = uid
+        if business_info:
+            message["business_info"] = business_info
         properties = pika.BasicProperties(delivery_mode=2)  # 消息持久化
 
         def func(obj):
