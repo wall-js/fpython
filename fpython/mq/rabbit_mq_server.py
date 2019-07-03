@@ -10,7 +10,6 @@ from pika.exceptions import ConnectionClosed
 
 
 class RabbitMQServer(object):
-    _instance_lock = threading.Lock()
     dial = ""
     exchange = ""
     routing_key = ""
@@ -50,11 +49,14 @@ class RabbitMQServer(object):
 
     @classmethod
     def run(cls, dial, receive_queue):
-        cls._instance_lock.acquire()
+        _instance_lock = threading.Lock()
+        if _instance_lock.locked():
+            return
+        _instance_lock.acquire()
         consumer = cls(dial)
         consumer.receive_queue = receive_queue
         consumer.start_consumer()
-        cls._instance_lock.release()
+        _instance_lock.release()
 
     def exec(self, func):
         try:
