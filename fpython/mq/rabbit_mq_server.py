@@ -28,11 +28,11 @@ class RabbitMQServer(object):
         # print(properties)
         # ch.basic_ack(delivery_tag=method.delivery_tag)
 
-    def start_consumer(self):
+    def start_consumer(self, auto_delete=True):
         while True:
             try:
                 self.reconnect()
-                self.channel.queue_declare(queue=self.receive_queue, durable=True, auto_delete=True)
+                self.channel.queue_declare(queue=self.receive_queue, durable=True, auto_delete=auto_delete)
                 self.channel.basic_consume(
                     queue=self.receive_queue, on_message_callback=self.consumer_callback, auto_ack=False)
                 self.channel.start_consuming()
