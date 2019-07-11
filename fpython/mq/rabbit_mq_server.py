@@ -102,7 +102,7 @@ class RabbitMQServer(object):
         properties = pika.BasicProperties(delivery_mode=2)  # 消息持久化
 
         def func(obj):
-            obj.channel.queue_declare(queue=routing_key, durable=True, auto_delete=True)
+            obj.channel.queue_declare(queue=routing_key, durable=True, auto_delete=False)
             obj.channel.basic_publish(exchange='', body=json.dumps(message), routing_key=routing_key,
                                       properties=properties)
 
